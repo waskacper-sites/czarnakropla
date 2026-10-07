@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Czarna Kropla Tattoo & Piercing | Tarnów</title>
+    
+    <!-- Meta SEO -->
+    <meta name="description" content="Studio tatuażu i piercingu Czarna Kropla w Tarnowie przy ul. Kaczkowskiego 7/6. Fine-line, blackwork, neo-traditional, piercing. Zarezerwuj termin online!">
+    <meta name="keywords" content="tatuaż Tarnów, piercing Tarnów, Czarna Kropla, studio tatuażu Tarnów, fine line Tarnów, blackwork Tarnów">
+    <meta name="author" content="Czarna Kropla Tattoo & Piercing">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Czarna Kropla Tattoo & Piercing">
+    <meta property="og:title" content="Czarna Kropla Tattoo & Piercing | Tarnów">
+    <meta property="og:description" content="Autorskie projekty, fine-line, blackwork, piercing i wygoda rezerwacji online.">
+    <meta property="og:image" content="logo.png">
+    <meta property="og:locale" content="pl_PL">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Flag Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css"/>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            50: '#fbf9f2',
+                            100: '#f5f0e1',
+                            200: '#ebdcb9',
+                            300: '#dec28a',
+                            400: '#c5a059',
+                            500: '#b38e44',
+                            600: '#947234',
+                            700: '#755829',
+                            800: '#604825',
+                            900: '#503c21'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['"Cinzel"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#fcfcfd] text-neutral-900 min-h-screen flex flex-col relative overflow-x-hidden selection:bg-neutral-900 selection:text-white">
+
+    <!-- SUBTELNY AMBIENT CANVAS W TLE (Płynnie pływające szampańskie orby) -->
+    <canvas id="ambient-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- BANER DEMONSTRACYJNY -->
+    <div class="bg-neutral-900 text-white py-3 px-4 sm:px-6 text-center text-xs sm:text-base font-medium border-b border-neutral-800 relative z-50 shadow-md flex items-center justify-center gap-3 flex-wrap">
+        <span class="inline-flex items-center gap-1.5 bg-amber-500/20 px-3 py-1 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-300 border border-amber-400/30">
+            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i> Wersja Demo
+        </span>
+        <span class="text-neutral-200">Spersonalizowany projekt strony przygotowany dla <strong>Czarna Kropla Tattoo & Piercing</strong> w Tarnowie.</span>
+        <button type="button" onclick="openContactOwnerModal()" class="underline text-amber-300 hover:text-white font-bold transition cursor-pointer">Chcesz taką stronę? Skontaktuj się z nami! →</button>
+    </div>
+
+    <!-- UNIWERSALNY MODAL POWIADOMIEŃ -->
+    <div id="custom-modal-backdrop" class="fixed inset-0 z-[120] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4 transition-all duration-300 opacity-0">
+        <div id="custom-modal-card" class="bg-white border border-neutral-200 p-8 sm:p-12 rounded-3xl max-w-lg w-full text-center shadow-2xl relative transform transition-all duration-300 scale-95 opacity-0">
+            <button id="custom-modal-close-btn" type="button" aria-label="Zamknij" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-500 hover:text-neutral-900 flex items-center justify-center text-base transition cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="custom-modal-icon-container" class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 text-2xl shadow-md"></div>
+            <h3 id="custom-modal-title" class="font-serif-title text-2xl sm:text-3xl text-neutral-900 mb-4 font-bold"></h3>
+            <div id="custom-modal-body" class="text-base sm:text-lg text-neutral-600 leading-relaxed mb-8 font-normal"></div>
+            <div id="custom-modal-actions" class="flex flex-col-reverse sm:flex-row gap-4 justify-center">
+                <button id="custom-modal-cancel-btn" type="button" class="hidden w-full sm:w-auto px-7 py-3.5 rounded-xl border border-neutral-300 text-neutral-700 hover:bg-neutral-100 text-sm uppercase tracking-widest transition cursor-pointer font-bold">Anuluj</button>
+                <button id="custom-modal-confirm-btn" type="button" class="bg-neutral-900 hover:bg-neutral-800 text-white font-bold px-8 py-3.5 rounded-xl text-sm uppercase tracking-widest transition cursor-pointer shadow-md w-full sm:w-auto">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAWIGACJA GŁÓWNA -->
+    <nav class="sticky top-0 left-0 w-full z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200/80 shadow-xs">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12">
+            <div class="flex justify-between items-center h-24 sm:h-28">
+                <!-- Logo studia -->
+                <a href="#" class="flex items-center gap-4 group">
+                    <div class="w-14 h-14 sm:w-18 sm:h-18 flex items-center justify-center bg-white rounded-2xl p-1.5 border border-neutral-200 shadow-xs group-hover:scale-105 transition-transform duration-300">
+                        <img src="logo.png" alt="Czarna Kropla Tattoo & Piercing" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <span class="font-cinzel text-xl sm:text-3xl font-black tracking-tight text-neutral-900 block leading-tight">CZARNA KROPLA</span>
+                        <span class="text-xs sm:text-sm uppercase tracking-[0.22em] text-[#c5a059] font-bold block">Tattoo & Piercing • Tarnów</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden xl:flex items-center gap-9 text-sm sm:text-base font-bold uppercase tracking-wider text-neutral-600">
+                    <a href="#about" class="hover:text-neutral-900 transition">O Studiu</a>
+                    <a href="#services" class="hover:text-neutral-900 transition">Style & Usługi</a>
+                    <a href="#benefits" class="hover:text-neutral-900 transition">Dlaczego Strona?</a>
+                    <a href="#portfolio" class="hover:text-neutral-900 transition">Portfolio</a>
+                    <a href="#rezerwacja" class="hover:text-neutral-900 transition">Rezerwacja</a>
+                    <a href="#testimonials" class="hover:text-neutral-900 transition">Opinie (4.9★)</a>
+                    <a href="#contact" class="hover:text-neutral-900 transition">Kontakt</a>
+                </div>
+
+                <!-- CTA Przycisk -->
+                <div class="flex items-center gap-4">
+                    <a href="tel:576889793" class="hidden sm:inline-flex items-center gap-2.5 px-5 py-3 rounded-2xl text-base font-bold text-neutral-800 hover:text-neutral-950 hover:bg-neutral-100 border border-neutral-200 transition">
+                        <i class="fa-solid fa-phone text-[#c5a059]"></i> 576 889 793
+                    </a>
+                    <a href="#rezerwacja" class="bg-neutral-900 hover:bg-neutral-800 px-6 py-3.5 sm:px-8 sm:py-4 rounded-2xl text-white font-bold text-sm sm:text-base uppercase tracking-wider transition shadow-md hover:shadow-lg flex items-center gap-2.5 border border-neutral-700">
+                        <i class="fa-solid fa-calendar-check text-[#c5a059]"></i>
+                        <span>Zarezerwuj Wizytę</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- WIDOK GŁÓWNY STRONY -->
+    <div id="main-content-view" class="flex-grow flex flex-col justify-between relative z-10">
+
+        <!-- HERO SECTION -->
+        <header class="relative min-h-[85vh] sm:min-h-[88vh] flex items-center justify-center pt-16 sm:pt-24 pb-20 sm:pb-32 overflow-hidden border-b border-neutral-200 bg-gradient-to-b from-amber-50/40 via-white/80 to-transparent">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] sm:w-[800px] h-[450px] sm:h-[800px] bg-amber-200/20 rounded-full blur-[140px] pointer-events-none"></div>
+
+            <div class="max-w-[1400px] mx-auto px-4 sm:px-8 text-center relative z-10">
+                <div class="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-neutral-800 text-xs sm:text-base uppercase tracking-widest font-bold mb-10 shadow-xs reveal-on-scroll">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#c5a059] animate-pulse"></span>
+                    <span>Studio Tatuażu & Piercingu • Kaczkowskiego 7/6, Tarnów</span>
+                </div>
+
+                <h1 class="font-serif-title text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-neutral-900 font-black tracking-tight leading-[1.04] mb-8 sm:mb-10 reveal-on-scroll reveal-delay-1">
+                    CZARNA KROPLA <br><span class="gold-gradient-text">TATTOO & PIERCING</span>
+                </h1>
+
+                <p class="text-neutral-600 text-lg sm:text-2xl md:text-3xl max-w-4xl mx-auto font-normal leading-relaxed mb-12 sm:mb-16 reveal-on-scroll reveal-delay-2">
+                    Artystyczny kunszt, profesjonalizm bez spiny i autorskie projekty w sercu Tarnowa. Wybierz swój styl, dodaj pomysł i zarezerwuj dogodny termin online.
+                </p>
+
+                <!-- Przyciski CTA -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-5 mb-16 sm:mb-24 w-full max-w-lg mx-auto sm:max-w-none reveal-on-scroll reveal-delay-3">
+                    <a href="#rezerwacja" class="w-full sm:w-auto bg-neutral-900 hover:bg-neutral-800 text-white px-10 py-5 rounded-2xl font-bold text-base sm:text-lg uppercase tracking-widest shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition flex items-center justify-center gap-3 border border-neutral-800">
+                        <i class="fa-solid fa-calendar-plus text-[#c5a059]"></i> Zarezerwuj Wizytę Online
+                    </a>
+                    <a href="#rezerwacja" class="w-full sm:w-auto bg-white/90 backdrop-blur-md border border-neutral-300 text-neutral-900 px-10 py-5 rounded-2xl font-bold text-base sm:text-lg uppercase tracking-widest hover:bg-neutral-50 hover:border-neutral-400 transition flex items-center justify-center gap-3 shadow-xs">
+                        <i class="fa-solid fa-clock text-[#c5a059]"></i> Sprawdź Wolne Terminy
+                    </a>
+                </div>
+
+                <!-- Liczniki zaufania -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8 max-w-5xl mx-auto border-t border-neutral-200/80 pt-12 sm:pt-16">
+                    <div class="luxury-card p-6 sm:p-8 rounded-3xl text-center bg-white/90 backdrop-blur-md reveal-on-scroll reveal-delay-1">
+                        <span class="block font-serif-title text-3xl sm:text-5xl text-neutral-900 font-bold mb-2">4.9 ★</span>
+                        <span class="text-sm sm:text-base text-neutral-500 uppercase tracking-wider font-semibold">122 Opinie Google</span>
+                    </div>
+                    <div class="luxury-card p-6 sm:p-8 rounded-3xl text-center bg-white/90 backdrop-blur-md reveal-on-scroll reveal-delay-2">
+                        <span class="block font-serif-title text-3xl sm:text-5xl text-[#c5a059] font-bold mb-2">Tattoo</span>
+                        <span class="text-sm sm:text-base text-neutral-500 uppercase tracking-wider font-semibold">& Piercing Studio</span>
+                    </div>
+                    <div class="luxury-card p-6 sm:p-8 rounded-3xl text-center bg-white/90 backdrop-blur-md reveal-on-scroll reveal-delay-3">
+                        <span class="block font-serif-title text-3xl sm:text-5xl text-neutral-900 font-bold mb-2">100%</span>
+                        <span class="text-sm sm:text-base text-neutral-500 uppercase tracking-wider font-semibold">Autorskie Projekty</span>
+                    </div>
+                    <div class="luxury-card p-6 sm:p-8 rounded-3xl text-center bg-white/90 backdrop-blur-md reveal-on-scroll reveal-delay-4">
+                        <span class="block font-serif-title text-3xl sm:text-5xl text-[#c5a059] font-bold mb-2">24/7</span>
+                        <span class="text-sm sm:text-base text-neutral-500 uppercase tracking-wider font-semibold">System Rezerwacji</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SEKCJA: O STUDIU (Płynne wejście przy przewijaniu) -->
+        <section id="about" class="py-24 sm:py-36 border-t border-neutral-200/80 bg-white/70 backdrop-blur-sm">
+            <div class="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+                    <div class="lg:col-span-7 reveal-on-scroll">
+                        <span class="text-[#c5a059] font-mono text-sm sm:text-base uppercase tracking-widest font-bold block mb-4">// O Studiu Czarna Kropla</span>
+                        <h2 class="font-serif-title text-4xl sm:text-6xl md:text-7xl text-neutral-900 font-black mb-8 leading-tight">
+                            Pasja, Styl i <br><span class="gold-gradient-text">Klimat Bez Spiny</span>
+                        </h2>
+                        <div class="space-y-6 text-neutral-600 text-lg sm:text-xl md:text-2xl leading-relaxed font-normal mb-10">
+                            <p>
+                                W <strong>Czarna Kropla Tattoo & Piercing</strong> przy ul. Kaczkowskiego 7/6 w Tarnowie stawiamy na czysty profesjonalizm, pełną sterylność i swobodną, przyjazną atmosferę.
+                            </p>
+                            <p>
+                                Niezależnie od tego, czy to Twoja pierwsza dziarka, kolejny tatuaż do kolekcji, czy bezpieczny piercing – jesteś w najlepszych rękach. Tworzymy unikalne projekty: od subtelnych motywów <strong>fine-line</strong> i florystyki, przez wyrazisty <strong>blackwork</strong>, aż po kultowe kompozycje <strong>neo-traditional</strong> oraz autorskie flash tatuaże.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                            <div class="p-6 sm:p-8 rounded-3xl bg-neutral-50/90 border border-neutral-200 reveal-on-scroll reveal-delay-1">
+                                <i class="fa-solid fa-shield-halved text-[#c5a059] text-3xl mb-3 block"></i>
+                                <span class="font-bold text-neutral-900 block text-lg sm:text-xl mb-1">100% Bezpieczeństwa</span>
+                                <span class="text-sm sm:text-base text-neutral-500">Najwyższy rygor sterylności, autoklaw i certyfikowane pigmenty.</span>
+                            </div>
+                            <div class="p-6 sm:p-8 rounded-3xl bg-neutral-50/90 border border-neutral-200 reveal-on-scroll reveal-delay-2">
+                                <i class="fa-solid fa-compact-disc text-[#c5a059] text-3xl mb-3 block"></i>
+                                <span class="font-bold text-neutral-900 block text-lg sm:text-xl mb-1">Ziomkowy Klimat</span>
+                                <span class="text-sm sm:text-base text-neutral-500">Świetna muzyka, wygoda, luźna atmosfera i zero niepotrzebnego stresu.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 reveal-on-scroll reveal-delay-2">
+                        <div class="luxury-card p-8 sm:p-12 rounded-3xl border border-neutral-200 shadow-xl bg-gradient-to-br from-white to-neutral-50/90">
+                            <div class="flex items-center gap-5 mb-8 pb-8 border-b border-neutral-200">
+                                <img src="logo.png" alt="Czarna Kropla Logo" class="w-20 h-20 object-contain bg-white rounded-2xl p-2 border border-neutral-200 shadow-xs">
+                                <div>
+                                    <h3 class="font-serif-title text-2xl sm:text-3xl text-neutral-900 font-bold">Kaczkowskiego 7/6</h3>
+                                    <p class="text-sm sm:text-base text-neutral-500 font-medium">33-100 Tarnów • Tattoo & Piercing</p>
+                                </div>
+                            </div>
+                            <div class="space-y-6 text-base sm:text-lg text-neutral-700">
+                                <div class="flex items-start gap-4">
+                                    <i class="fa-solid fa-clock text-[#c5a059] mt-1.5 text-xl"></i>
+                                    <div>
+                                        <strong class="text-neutral-900 block mb-1 text-lg">Godziny Otwarcia Studia:</strong>
+                                        <span class="block">Poniedziałek – Piątek: <strong>10:00 – 17:00</strong></span>
+                                        <span class="block text-[#c5a059]">Sobota: <strong>10:00 – 15:00</strong></span>
+                                        <span class="block text-neutral-400 font-medium">Niedziela: Zamknięte</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 pt-3 border-t border-neutral-200">
+                                    <i class="fa-solid fa-phone text-[#c5a059] text-xl"></i>
+                                    <a href="tel:576889793" class="hover:text-[#c5a059] font-black text-xl text-neutral-900 transition">576 889 793</a>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <i class="fa-brands fa-instagram text-[#c5a059] text-xl"></i>
+                                    <a href="https://www.instagram.com/czarnakropla.tattoo/" target="_blank" class="hover:text-[#c5a059] font-bold underline transition">@czarnakropla.tattoo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKCJA: STYLE & USŁUGI (Kaskadowe odkrywanie kart) -->
+        <section id="services" class="py-24 sm:py-36 border-t border-neutral-200/80 bg-[#f8f9fa]/80 backdrop-blur-sm">
+            <div class="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
+                <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20 reveal-on-scroll">
+                    <span class="text-[#c5a059] font-mono text-sm sm:text-base uppercase tracking-widest font-bold block mb-3">// Specjalizacja Studia</span>
+                    <h2 class="font-serif-title text-4xl sm:text-6xl text-neutral-900 font-black mb-5">Style & Usługi</h2>
+                    <p class="text-neutral-600 text-lg sm:text-2xl leading-relaxed">Od delikatnych linii po mocną czerń i profesjonalny piercing – zobacz w czym się specjalizujemy.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+                    <div class="luxury-card p-8 sm:p-12 rounded-3xl text-left bg-white shadow-sm hover:shadow-md transition reveal-on-scroll reveal-delay-1">
+                        <div class="w-16 h-16 rounded-2xl bg-amber-50 text-[#c5a059] flex items-center justify-center text-2xl mb-6 border border-amber-200/60">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <h3 class="font-serif-title text-2xl sm:text-3xl text-neutral-900 font-bold mb-3">Fine-line & Botanika</h3>
+                        <p class="text-base sm:text-lg text-neutral-600 leading-relaxed font-normal">
+                            Subtelne kompozycje, gałązki, kwiaty na obojczykach i ramionach, minimalistyczne motywy oraz mikro-linie wykonane z chirurgiczną precyzją.
+                        </p>
+                    </div>
+
+                    <div class="luxury-card p-8 sm:p-12 rounded-3xl text-left bg-white shadow-sm hover:shadow-md transition reveal-on-scroll reveal-delay-2">
+                        <div class="w-16 h-16 rounded-2xl bg-neutral-100 text-neutral-900 flex items-center justify-center text-2xl mb-6 border border-neutral-200">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="font-serif-title text-2xl sm:text-3xl text-neutral-900 font-bold mb-3">Blackwork & Grafika</h3>
+                        <p class="text-base sm:text-lg text-neutral-600 leading-relaxed font-normal">
+                            Głęboki czarny pigment, błyskawice, mocne ostre kontury i kompozycje o wyrazistej dynamice, które przyciągają wzrok z daleka.
+                        </p>
+                    </div>
+
+                    <div class="luxury-card p-8 sm:p-12 rounded-3xl text-left bg-white shadow-sm hover:shadow-md transition reveal-on-scroll reveal-delay-3">
+                        <div class="w-16 h-16 rounded-2xl bg-amber-50 text-[#c5a059] flex items-center justify-center text-2xl mb-6 border border-amber-200/60">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <h3 class="font-serif-title text-2xl sm:text-3xl text-neutral-900 font-bold mb-3">Neo-Traditional & Flash</h3>
+                        <p class="text-base sm:text-lg text-neutral-600 leading-relaxed font-normal">
+                            Niezwykłe autorskie projekty – serca, oczy, retro motywy z charakterem i nutą ignorant artu. Prawdziwa sztuka z unikalną duszą.
+                        </p>
+                    </div>
+
+                    <div class="luxury-card p-8 sm:p-12 rounded-3xl text-left bg-white shadow-sm hover:shadow-md transition reveal-on-scroll reveal-delay-4">
+                        <div class="w-16 h-16 rounded-2xl bg-neutral-100 text-neutral-900 flex items-center justify-center text-2xl mb-6 border border-neutral-200">
+                            <i class="fa-solid fa-ring"></i>
+                        </div>
+                        <h3 class="font-serif-title text-2xl sm:text-3xl text-neutral-900 font-bold mb-3">Piercing Profesjonalny</h3>
+                        <p class="text-base sm:text-lg text-neutral-600 leading-relaxed font-normal">
+                            Precyzyjne i higieniczne przekłucia ciała przy użyciu sterylnych narzędzi i bezpiecznych kolczyków z tytanu implantacyjnego.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKCJA: DLACZEGO WARTO MIEĆ PROFESJONALNĄ STRONĘ? -->
+        <section id="benefits" class="py-24 sm:py-36 border-t border-neutral-200/80 bg-white/70 backdrop-blur-sm">
+            <div class="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
+                <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20 reveal-on-scroll">
+                    <span class="text-[#c5a059] font-mono text-sm sm:text-base uppercase tracking-widest font-bold block mb-3">// Wartość Dla Twojego Studia</span>
+                    <h2 class="font-serif-title text-4xl sm:text-6xl text-neutral-900 font-black mb-5">Dlaczego Warto Mieć Własną Stronę?</h2>
+                    <p class="text-neutral-600 text-lg sm:text-2xl leading-relaxed">Koniec z chaosem w wiadomościach na Instagramie. Poznaj realne korzyści z nowoczesnej strony www.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+                    <div class="p-8 sm:p-12 rounded-3xl bg-neutral-50/90 border border-neutral-200 hover:border-[#c5a059] transition reveal-on-scroll reveal-delay-1">
+                        <div class="w-16 h-16 rounded-2xl bg-white shadow-xs flex items-center justify-center text-[#c5a059] text-2xl mb-6 border border-neutral-200">
+                            <i class="fa-solid fa-inbox"></i>
+                        </div>
+                        <h3 class="font-bold text-neutral-900 text-2xl sm:text-3xl mb-3">Zero Straconych Klientów</h3>
+                        <p class="text-neutral-600 text-base sm:text-lg leading-relaxed">
+                            Wiadomości na Instagramie łatwo przeoczyć lub utonąć w powiadomieniach. Formularz zbiera wszystkie zgłoszenia w jednym uporządkowanym miejscu.
+                        </p>
+                    </div>
+
+                    <div class="p-8 sm:p-12 rounded-3xl bg-neutral-50/90 border border-neutral-200 hover:border-[#c5a059] transition reveal-on-scroll reveal-delay-2">
+                        <div class="w-16 h-16 rounded-2xl bg-white shadow-xs flex items-center justify-center text-[#c5a059] text-2xl mb-6 border border-neutral-200">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <h3 class="font-bold text-neutral-900 text-2xl sm:text-3xl mb-3">Automatyczny Kalendarz 24/7</h3>
+                        <p class="text-neutral-600 text-base sm:text-lg leading-relaxed">
+                            Klient sam wybiera dostępny termin, styl i załącza zdjęcie inspiracji – nawet w środku nocy, gdy studio ma przerwę.
+                        </p>
+                    </div>
+
+                    <div class="p-8 sm:p-12 rounded-3xl bg-neutral-50/90 border border-neutral-200 hover:border-[#c5a059] transition reveal-on-scroll reveal-delay-3">
+                        <div class="w-16 h-16 rounded-2xl bg-white shadow-xs flex items-center justify-center text-[#c5a059] text-2xl mb-6 border border-neutral-200">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <h3 class="font-bold text-neutral-900 text-2xl sm:text-3xl mb-3">Pełna Niezależność</h3>
+                        <p class="text-neutral-600 text-base sm:text-lg leading-relaxed">
+                            Żadnych prowizji od portali pośredniczących typu Booksy czy biletomatów. Strona i baza klientów należą w 100% wyłącznie do Was.
+                        </p>
+                    </div>
+
+                    <div class="p-8 sm:p-12 rounded-3xl bg-neutral-50/90 border border-neutral-200 hover:border-[#c5a059] transition reveal-on-scroll reveal-delay-4">
+                        <div class="w-16 h-16 rounded-2xl bg-white shadow-xs flex items-center justify-center text-[#c5a059] text-2xl mb-6 border border-neutral-200">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <h3 class="font-bold text-neutral-900 text-2xl sm:text-3xl mb-3">Wizerunek Premium</h3>
+                        <p class="text-neutral-600 text-base sm:text-lg leading-relaxed">
+                            Elegancki, minimalistyczny design natychmiast buduje zaufanie i wyróżnia Was na tle innych salonów tatuażu w Tarnowie i Małopolsce.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKCJA: PORTFOLIO / GALERIA -->
+        <section id="portfolio" class="py-24 sm:py-36 border-t border-neutral-200/80 bg-[#f8f9fa]/80 backdrop-blur-sm">
+            <div class="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6 reveal-on-scroll">
+                    <div>
+                        <span class="text-[#c5a059] font-mono text-sm sm:text-base uppercase tracking-widest font-bold block mb-3">// Galeria Prac</span>
+                        <h2 class="font-serif-title text-4xl sm:text-6xl text-neutral-900 font-black">Portfolio Studia</h2>
+                    </div>
+                    <a href="https://www.instagram.com/czarnakropla.tattoo/" target="_blank" class="inline-flex items-center gap-3 text-base sm:text-lg font-bold text-neutral-900 hover:text-[#c5a059] transition">
+                        <span>Zobacz profil na Instagramie</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+                    <!-- Zdjęcie 1: Serce dłoń -->
+                    <div class="portfolio-card luxury-card rounded-3xl overflow-hidden cursor-pointer group bg-white shadow-sm reveal-on-scroll reveal-delay-1" onclick="openLightbox(0)">
+                        <div class="relative aspect-square overflow-hidden bg-neutral-100">
+                            <img src="portfolio-1.jpg" alt="Ignorant & Neo-traditional Flash" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-neutral-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-2xl">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-xs uppercase tracking-wider text-[#c5a059] font-bold block mb-1">Neo-traditional / Flash</span>
+                            <h3 class="font-bold text-neutral-900 text-lg truncate">Crying Heart Hand Tattoo</h3>
+                        </div>
+                    </div>
+
+                    <!-- Zdjęcie 2: Kolano z okiem -->
+                    <div class="portfolio-card luxury-card rounded-3xl overflow-hidden cursor-pointer group bg-white shadow-sm reveal-on-scroll reveal-delay-2" onclick="openLightbox(1)">
+                        <div class="relative aspect-square overflow-hidden bg-neutral-100">
+                            <img src="portfolio-2.png" alt="Graphic Dark Art & Eye" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-neutral-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-2xl">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-xs uppercase tracking-wider text-[#c5a059] font-bold block mb-1">Blackwork / Dark Graphic</span>
+                            <h3 class="font-bold text-neutral-900 text-lg truncate">Eye In Heart & OSW</h3>
+                        </div>
+                    </div>
+
+                    <!-- Zdjęcie 3: Błyskawica -->
+                    <div class="portfolio-card luxury-card rounded-3xl overflow-hidden cursor-pointer group bg-white shadow-sm reveal-on-scroll reveal-delay-3" onclick="openLightbox(2)">
+                        <div class="relative aspect-square overflow-hidden bg-neutral-100">
+                            <img src="portfolio-3.png" alt="Dynamic Lightning Linework" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-neutral-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-2xl">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-xs uppercase tracking-wider text-[#c5a059] font-bold block mb-1">Linework / Blackwork</span>
+                            <h3 class="font-bold text-neutral-900 text-lg truncate">Lightning Dynamic Arm</h3>
+                        </div>
+                    </div>
+
+                    <!-- Zdjęcie 4: Obojczyk kwiaty -->
+                    <div class="portfolio-card luxury-card rounded-3xl overflow-hidden cursor-pointer group bg-white shadow-sm reveal-on-scroll reveal-delay-4" onclick="openLightbox(3)">
+                        <div class="relative aspect-square overflow-hidden bg-neutral-100">
+                            <img src="portfolio-4.png" alt="Delicate Floral Fine-line" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-neutral-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-2xl">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-xs uppercase tracking-wider text-[#c5a059] font-bold block mb-1">Fine-line / Botanika</span>
+                            <h3 class="font-bold text-neutral-900 text-lg truncate">Floral Delicate Collarbone</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKCJA: SYSTEM REZERWACJI ONLINE -->
+        <section id="rezerwacja" class="py-24 sm:py-36 border-t border-neutral-200/80 bg-white/70 backdrop-blur-sm">
+            <div class="max-w-[1300px] mx-auto px-4 sm:px-8 lg:px-12">
+                <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20 reveal-on-scroll">
+                    <span class="text-[#c5a059] font-mono text-sm sm:text-base uppercase tracking-widest font-bold block mb-3">// Interaktywny Kalendarz</span>
+                    <h2 class="font-serif-title text-4xl sm:text-6xl text-neutral-900 font-black mb-5">Zarezerwuj Swój Termin</h2>
+                    <p class="text-neutral-600 text-lg sm:text-2xl leading-relaxed">Wybierz preferowany styl, wskaż dogodny termin i opisz swój pomysł w kilku prostych krokach.</p>
+                </div>
+
+                <!-- Kontener widgetu rezerwacji -->
+                <div class="luxury-card rounded-3xl p-8 sm:p-14 border border-neutral-200 bg-white shadow-xl relative reveal-on-scroll reveal-delay-1">
+                    <!-- Zakładki kroków -->
+                    <div class="grid grid-cols-4 gap-3 border-b border-neutral-200 pb-5 mb-10 text-center text-sm sm:text-base font-bold">
+                        <div id="step-tab-1" class="text-neutral-900 border-b-2 border-neutral-900 pb-3 font-bold cursor-pointer transition-colors" onclick="goToBookingStep(1)">
+                            <span class="hidden sm:inline">1. </span>Styl / Usługa
+                        </div>
+                        <div id="step-tab-2" class="text-neutral-400 pb-3 cursor-pointer font-normal transition-colors" onclick="goToBookingStep(2)">
+                            <span class="hidden sm:inline">2. </span>Data & Godzina
+                        </div>
+                        <div id="step-tab-3" class="text-neutral-400 pb-3 cursor-pointer font-normal transition-colors" onclick="goToBookingStep(3)">
+                            <span class="hidden sm:inline">3. </span>Dane & Pomysł
+                        </div>
+                        <div id="step-tab-4" class="text-neutral-400 pb-3 cursor-pointer font-normal transition-colors" onclick="goToBookingStep(4)">
+                            <span class="hidden sm:inline">4. </span>Podsumowanie
+                        </div>
+                    </div>
+
+                    <form id="main-booking-form">
+                        <!-- KROK 1: Wybór Stylu -->
+                        <div id="booking-step-1" class="step-slide-in space-y-8">
+                            <h3 class="font-serif-title text-2xl sm:text-3xl text-neutral-900 font-bold mb-6">Wybierz interesującą Cię usługę:</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                                <button type="button" id="service-option-fineline" onclick="selectService('fineline')" class="p-6 sm:p-8 rounded-3xl border border-[#c5a059] bg-amber-50/40 text-left transition hover:border-[#c5a059] cursor-pointer shadow-xs">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="font-bold text-neutral-900 text-lg sm:text-xl">Fine-line & Botanika</span>
+                                        <i class="fa-solid fa-seedling text-[#c5a059] text-xl"></i>
+                                    </div>
+                                    <p class="text-sm sm:text-base text-neutral-600 leading-relaxed">Subtelne linie, mikrotatuaże, motywy roślinne i florystyczne.</p>
+                                </button>
+
+                                <button type="button" id="service-option-blackwork" onclick="selectService('blackwork')" class="p-6 sm:p-8 rounded-3xl border border-neutral-200 bg-white text-left transition hover:border-[#c5a059] cursor-pointer shadow-xs">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="font-bold text-neutral-900 text-lg sm:text-xl">Blackwork & Grafika</span>
+                                        <i class="fa-solid fa-bolt text-neutral-800 text-xl"></i>
+                                    </div>
+                                    <p class="text-sm sm:text-base text-neutral-600 leading-relaxed">Mocna głęboka czerń, błyskawice, ostre kontury i mroczna grafika.</p>
+                                </button>
+
+                                <button type="button" id="service-option-neotrad" onclick="selectService('neotrad')" class="p-6 sm:p-8 rounded-3xl border border-neutral-200 bg-white text-left transition hover:border-[#c5a059] cursor-pointer shadow-xs">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="font-bold text-neutral-900 text-lg sm:text-xl">Neo-traditional & Flash</span>
+                                        <i class="fa-solid fa-heart text-[#c5a059] text-xl"></i>
+                                    </div>
+                                    <p class="text-sm sm:text-base text-neutral-600 leading-relaxed">Kreatywne autorskie wzory, serca, motywy ignorant i retro.</p>
+                                </button>
+
+                                <button type="button" id="service-option-piercing" onclick="selectService('piercing')" class="p-6 sm:p-8 rounded-3xl border border-neutral-200 bg-white text-left transition hover:border-[#c5a059] cursor-pointer shadow-xs">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="font-bold text-neutral-900 text-lg sm:text-xl">Piercing Profesjonalny</span>
+                                        <i class="fa-solid fa-ring text-neutral-800 text-xl"></i>
+                                    </div>
+                                    <p class="text-sm sm:text-base text-neutral-600 leading-relaxed">Bezpieczne, precyzyjne przekłucia w sterylnych warunkach.</p>
+                                </button>
+
+                                <button type="button" id="service-option-konsultacja" onclick="selectService('konsultacja')" class="p-6 sm:p-8 rounded-3xl border border-neutral-200 bg-white text-left transition hover:border-[#c5a059] cursor-pointer shadow-xs">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="font-bold text-neutral-900 text-lg sm:text-xl">Konsultacja & Projekt</span>
+                                        <i class="fa-solid fa-comments text-[#c5a059] text-xl"></i>
+                                    </div>
+                                    <p class="text-sm sm:text-base text-neutral-600 leading-relaxed">Omówienie własnego pomysłu, doradztwo w doborze miejsca i kompozycji.</p>
+                                </button>
+                            </div>
+
+                            <div class="pt-8 text-right">
+                                <button type="button" onclick="goToBookingStep(2)" class="px-10 py-4 rounded-2xl bg-neutral-900 hover:bg-neutral-800 text-white font-bold text-sm sm:text-base uppercase tracking-wider transition shadow-md">
+                                    Dalej: Wybierz Termin →
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- KROK 2: Kalendarz i Godziny -->
+                        <div id="booking-step-2" class="step-slide-in space-y-8 hidden">
+                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                                <!-- Kalendarz -->
+                                <div class="lg:col-span-7 bg-neutral-50/80 p-6 sm:p-8 rounded-3xl border border-neutral-200">
+                                    <div class="flex justify-between items-center mb-6">
+                                        <button type="button" id="cal-prev-btn" onclick="changeMonth(-1)" class="w-11 h-11 rounded-2xl bg-white border border-neutral-200 hover:bg-neutral-100 flex items-center justify-center text-base transition shadow-xs">
+                                            <i class="fa-solid fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="current-month-year" class="font-serif-title text-xl sm:text-2xl text-neutral-900 font-bold"></h3>
+                                        <button type="button" id="cal-next-btn" onclick="changeMonth(1)" class="w-11 h-11 rounded-2xl bg-white border border-neutral-200 hover:bg-neutral-100 flex items-center justify-center text-base transition shadow-xs">
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Dni tygodnia -->
+                                    <div class="grid grid-cols-7 gap-2 text-center font-bold text-neutral-400 text-xs sm:text-sm uppercase tracking-wider mb-3">
+                                        <div>Pn</div><div>Wt</div><div>Śr</div><div>Cz</div><div>Pt</div><div class="text-[#c5a059]">Sb</div><div class="text-neutral-300">Nd</div>
+                                    </div>
+
+                                    <!-- Siatka dni -->
+                                    <div id="calendar-days-grid" class="grid grid-cols-7 gap-2"></div>
+
+                                    <!-- Legenda kolorów -->
+                                    <div class="mt-6 pt-4 border-t border-neutral-200 flex items-center justify-center gap-6 text-xs sm:text-sm text-neutral-600 flex-wrap">
+                                        <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> Wolny dzień</span>
+                                        <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-400"></span> Ostatnie miejsca</span>
+                                        <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-rose-500"></span> Brak miejsc</span>
+                                    </div>
+                                </div>
+
+                                <!-- Wybór Godziny -->
+                                <div class="lg:col-span-5 space-y-6">
+                                    <div class="p-6 rounded-3xl bg-neutral-50 border border-neutral-200">
+                                        <span class="text-xs sm:text-sm uppercase tracking-wider text-neutral-400 font-bold block mb-1">Wybrany dzień:</span>
+                                        <span id="selected-day-display" class="font-serif-title text-xl sm:text-2xl text-neutral-900 font-bold block">Wybierz dzień w kalendarzu</span>
+                                    </div>
+
+                                    <div>
+                                        <span class="text-xs sm:text-sm uppercase tracking-wider text-neutral-500 font-bold block mb-3">Dostępne godziny wizyty:</span>
+                                        <div id="time-slots-container" class="grid grid-cols-2 gap-3">
+                                            <div class="col-span-2 text-center text-sm text-neutral-400 py-6">Wybierz najpierw dzień w kalendarzu.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 text-xs sm:text-sm text-neutral-700 leading-relaxed">
+                                        <i class="fa-solid fa-circle-info text-[#c5a059] mr-2"></i>
+                                        W soboty studio pracuje w godzinach <strong>10:00 – 15:00</strong>. W niedziele odpoczywamy!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-8 flex justify-between items-center">
+                                <button type="button" onclick="goToBookingStep(1)" class="px-8 py-4 rounded-2xl border border-neutral-300 text-neutral-700 hover:bg-neutral-100 font-bold text-xs sm:text-sm uppercase tracking-wider transition">
+                                    ← Wróć do Stylów
+                                </button>
+                                <button type="button" onclick="goToBookingStep(3)" class="px-10 py-4 rounded-2xl bg-neutral-900 hover:bg-neutral-800 text-white font-bold text-sm sm:text-base uppercase tracking-wider transition shadow-md">
+                                    Dalej: Twoje Dane →
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- KROK 3: Dane Klienta i Inspiracje -->
+                        <div id="booking-step-3" class="step-slide-in space-y-6 hidden">
+                            <h3 class="font-serif-title text-2xl sm:text-3xl text-neutral-900 font-bold mb-6">Podaj dane do kontaktu i opisz swój pomysł:</h3>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs sm:text-sm uppercase font-bold text-neutral-700 mb-2">Imię i Nazwisko *</label>
+                                    <input type="text" id="booking-client-name" placeholder="np. Anna Nowak" required class="w-full px-5 py-4 rounded-2xl bg-white border border-neutral-200 text-neutral-900 text-base outline-none focus:border-[#c5a059] focus:ring-1 focus:ring-[#c5a059] shadow-xs">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs sm:text-sm uppercase font-bold text-neutral-700 mb-2">Numer Telefonu *</label>
+                                    <div class="relative flex">
+                                        <!-- Dropdown z flagami -->
+                                        <button type="button" id="country-select-trigger" onclick="toggleCountryDropdown()" class="px-4 py-4 rounded-l-2xl bg-neutral-50 border border-r-0 border-neutral-200 text-sm flex items-center gap-2 hover:bg-neutral-100 transition">
+                                            <span id="selected-country-flag" class="fi fi-pl"></span>
+                                            <span id="selected-country-code" class="font-semibold text-neutral-700">+48</span>
+                                            <i class="fa-solid fa-chevron-down text-xs text-neutral-400"></i>
+                                        </button>
+                                        <input type="tel" id="booking-client-phone" placeholder="576 889 793" required class="w-full px-5 py-4 rounded-r-2xl bg-white border border-neutral-200 text-neutral-900 text-base outline-none focus:border-[#c5a059] focus:ring-1 focus:ring-[#c5a059] shadow-xs">
+                                        
+                                        <!-- Menu krajów -->
+                                        <div id="country-dropdown-menu" class="absolute top-full left-0 mt-2 w-72 max-h-60 bg-white border border-neutral-200 rounded-2xl shadow-2xl z-50 p-3 hidden">
+                                            <input type="text" id="country-search-input" oninput="renderCountryOptions(this.value)" placeholder="Szukaj kraju..." class="w-full px-3 py-2 text-xs rounded-xl border border-neutral-200 mb-2 outline-none focus:border-[#c5a059]">
+                                            <div id="country-options-list" class="space-y-1 overflow-y-auto max-h-44"></div>
+                                        </div>
+                                    </div>
+                                    <p id="phone-error-msg" class="text-xs text-rose-600 mt-1 hidden">Wprowadź prawidłowy numer telefonu.</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs sm:text-sm uppercase font-bold text-neutral-700 mb-2">Adres E-mail *</label>
+                                    <input type="email" id="booking-client-email" placeholder="twoj@email.pl" required class="w-full px-5 py-4 rounded-2xl bg-white border border-neutral-200 text-neutral-900 text-base outline-none focus:border-[#c5a059] focus:ring-1 focus:ring-[#c5a059] shadow-xs">
+                                    <p id="email-error-msg" class="text-xs text-rose-600 mt-1 hidden">Wprowadź prawidłowy adres e-mail.</p>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs sm:text-sm uppercase font-bold text-neutral-700 mb-2">Planowane Miejsce na Ciele *</label>
+                                    <input type="text" id="booking-tattoo-placement" placeholder="np. przedramię, obojczyk, łopatka" required class="w-full px-5 py-4 rounded-2xl bg-white border border-neutral-200 text-neutral-900 text-base outline-none focus:border-[#c5a059] focus:ring-1 focus:ring-[#c5a059] shadow-xs">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs sm:text-sm uppercase font-bold text-neutral-700 mb-2">Opis Pomysłu / Preferowany Wymiar (opcjonalnie)</label>
+                                <textarea id="booking-description" rows="3" placeholder="Opisz motyw, czy tatuaż ma mieć ok. 10 cm, czy jest to cover-up, albo wskaż rodzaj przekłucia w piercingu..." class="w-full px-5 py-4 rounded-2xl bg-white border border-neutral-200 text-neutral-900 text-base outline-none focus:border-[#c5a059] focus:ring-1 focus:ring-[#c5a059] shadow-xs"></textarea>
+                            </div>
+
+                            <!-- Upload inspiracji -->
+                            <div>
+                                <label class="block text-xs sm:text-sm uppercase font-bold text-neutral-700 mb-2">Zdjęcia Inspiracji (maks. 3 pliki)</label>
+                                <div class="border-2 border-dashed border-neutral-200 rounded-3xl p-8 text-center hover:border-[#c5a059] transition cursor-pointer bg-neutral-50/50" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="document.getElementById('inspiration-file-input').click()">
+                                    <i class="fa-solid fa-cloud-arrow-up text-3xl text-neutral-400 mb-2"></i>
+                                    <p class="text-sm sm:text-base text-neutral-600 font-medium">Kliknij lub przeciągnij zdjęcia (JPG, PNG)</p>
+                                    <input type="file" id="inspiration-file-input" multiple accept="image/*" class="hidden" onchange="handleFileSelect(event)">
+                                </div>
+                                <div id="uploaded-files-preview" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4"></div>
+                            </div>
+
+                            <div class="pt-8 flex justify-between items-center">
+                                <button type="button" onclick="goToBookingStep(2)" class="px-8 py-4 rounded-2xl border border-neutral-300 text-neutral-700 hover:bg-neutral-100 font-bold text-xs sm:text-sm uppercase tracking-wider transition">
+                                    ← Wróć do Kalendarza
+                                </button>
+                                <button type="button" onclick="goToBookingStep(4)" class="px-10 py-4 rounded-2xl bg-neutral-900 hover:bg-neutral-800 text-white font-bold text-sm sm:text-base uppercase tracking-wider transition shadow-md">
+                                    Dalej: Podsumowanie →
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- KROK 4: Podsumowanie i Potwierdzenie -->
+                        <div id="booking-step-4" class="step-slide-in space-y-8 hidden">
+                            <h3 class="font-serif-title text-2xl sm:text-3xl text-neutral-900 font-bold mb-6">Podsumowanie Rezerwacji:</h3>
+
+                            <div class="p-8 sm:p-10 rounded-3xl bg-neutral-50 border border-neutral-200 space-y-4 text-base sm:text-lg">
+                                <div class="flex justify-between border-b border-neutral-200 pb-3">
+                                    <span class="text-neutral-500 font-medium">Wybrana Usługa:</span>
+                                    <span id="summary-service-text" class="font-bold text-neutral-900"></span>
+                                </div>
+                                <div class="flex justify-between border-b border-neutral-200 pb-3">
+                                    <span class="text-neutral-500 font-medium">Termin Wizyty:</span>
+                                    <span id="summary-datetime-text" class="font-bold text-[#c5a059]"></span>
+                                </div>
+                                <div class="flex justify-between border-b border-neutral-200 pb-3">
+                                    <span class="text-neutral-500 font-medium">Klient:</span>
+                                    <span id="summary-client-name" class="font-bold text-neutral-900"></span>
+                                </div>
+                                <div class="flex justify-between border-b border-neutral-200 pb-3">
+                                    <span class="text-neutral-500 font-medium">Miejsce na ciele:</span>
+                                    <span id="summary-placement-text" class="font-bold text-neutral-900"></span>
+                                </div>
+                                <div class="flex justify-between border-b border-neutral-200 pb-3">
+                                    <span class="text-neutral-500 font-medium">Dane kontaktowe:</span>
+                                    <span id="summary-contact-text" class="font-mono text-neutral-800"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-neutral-500 font-medium">Załączone inspiracje:</span>
+                                    <span id="summary-images-text" class="text-neutral-800 font-bold">0 szt.</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <input type="checkbox" id="rodo-consent-checkbox" required class="mt-1.5 w-5 h-5 rounded text-neutral-900 focus:ring-[#c5a059] border-neutral-300">
+                                <label for="rodo-consent-checkbox" class="text-sm sm:text-base text-neutral-600 leading-relaxed cursor-pointer font-normal">
+                                    Wyrażam zgodę na przetwarzanie moich danych osobowych przez Czarna Kropla Tattoo & Piercing w celu obsługi zapytania i organizacji terminu wizyty.
+                                </label>
+                            </div>
+
+                            <div class="pt-8 flex justify-between items-center">
+                                <button type="button" onclick="goToBookingStep(3)" class="px-8 py-4 rounded-2xl border border-neutral-300 text-neutral-700 hover:bg-neutral-100 font-bold text-xs sm:text-sm uppercase tracking-wider transition">
+                                    ← Popraw Dane
+                                </button>
+                                <button type="submit" class="px-10 py-5 rounded-2xl bg-neutral-900 hover:bg-neutral-800 text-white font-bold text-base sm:text-lg uppercase tracking-widest transition shadow-lg border border-neutral-800">
+                                    <i class="fa-solid fa-check mr-2.5 text-[#c5a059]"></i> Zatwierdź Rezerwację
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKCJA: OPINIE Z GOOGLE (4.9 ★) - Duże, przestronne karty z animacją wejścia -->
+        <section id="testimonials" class="py-24 sm:py-36 border-t border-neutral-200/80 bg-[#f8f9fa]/80 backdrop-blur-sm">
+            <div class="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
+                <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20 reveal-on-scroll">
+                    <div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white border border-neutral-200 text-sm font-bold text-neutral-800 shadow-xs mb-4">
+                        <i class="fa-brands fa-google text-[#c5a059] text-base"></i>
+                        <span>Średnia ocena 4.9 ★ na podstawie 122 opinii</span>
+                    </div>
+                    <h2 class="font-serif-title text-4xl sm:text-6xl text-neutral-900 font-black mb-5">Co Mówią Klienci</h2>
+                    <p class="text-neutral-600 text-lg sm:text-2xl leading-relaxed">Autentyczne recenzje osób, które odwiedziły studio Czarna Kropla w Tarnowie.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-10">
+                    <!-- Opinia 1: K L -->
+                    <div class="luxury-card p-8 sm:p-12 rounded-3xl flex flex-col justify-between bg-white shadow-sm reveal-on-scroll reveal-delay-1">
+                        <div>
+                            <div class="flex items-center gap-1.5 text-amber-400 text-lg mb-6">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-neutral-700 text-base sm:text-xl leading-relaxed italic mb-8">
+                                „Świetne profesjonalne podejście i świetne wykonanie tatuaży w stylu old school. Wybrany styl: Old school, traditional, Black&white.”
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-4 pt-6 border-t border-neutral-100">
+                            <div class="w-12 h-12 rounded-full bg-neutral-900 text-white font-bold flex items-center justify-center text-base">
+                                KL
+                            </div>
+                            <div>
+                                <span class="font-bold text-neutral-900 text-base sm:text-lg block">K L</span>
+                                <span class="text-xs sm:text-sm text-neutral-400">Opinia z Google • 5 miesięcy temu</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Opinia 2: Mateusz Piekut -->
+                    <div class="luxury-card p-8 sm:p-12 rounded-3xl flex flex-col justify-between bg-white border-[#c5a059]/40 ring-2 ring-[#c5a059]/30 shadow-md reveal-on-scroll reveal-delay-2">
+                        <div>
+                            <div class="flex items-center gap-1.5 text-amber-400 text-lg mb-6">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-neutral-700 text-base sm:text-xl leading-relaxed italic mb-8">
+                                „Trzeci raz już się dziarałem tutaj. Za każdym razem pełen profesjonalizm i przy tym klimat kompletnie bez spiny. Eleganckie dziarki, dobre mordki, ziomkowa atmosfera, dobra muzyka, warto jechać 200km po dziarkę.”
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-4 pt-6 border-t border-neutral-100">
+                            <div class="w-12 h-12 rounded-full bg-[#c5a059] text-white font-bold flex items-center justify-center text-base">
+                                MP
+                            </div>
+                            <div>
+                                <span class="font-bold text-neutral-900 text-base sm:text-lg block">Mateusz Piekut</span>
+                                <span class="text-xs sm:text-sm text-neutral-400">Lokalny przewodnik • 24 opinie</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Opinia 3: Jurek -->
+                    <div class="luxury-card p-8 sm:p-12 rounded-3xl flex flex-col justify-between bg-white shadow-sm reveal-on-scroll reveal-delay-3">
+                        <div>
+                            <div class="flex items-center gap-1.5 text-amber-400 text-lg mb-6">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-neutral-700 text-base sm:text-xl leading-relaxed italic mb-8">
+                                „Chciałbym gorąco polecić Studio Tatuażu „Czarna Kropla” wszystkim poszukującym profesjonalnego podejścia, artystycznej doskonałości i przyjaznej atmosfery. Od momentu wejścia do studia czułem się mile widziany i komfortowo.”
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-4 pt-6 border-t border-neutral-100">
+                            <div class="w-12 h-12 rounded-full bg-neutral-900 text-white font-bold flex items-center justify-center text-base">
+                                JU
+                            </div>
+                            <div>
+                                <span class="font-bold text-neutral-900 text-base sm:text-lg block">Jurek</span>
+                                <span class="text-xs sm:text-sm text-neutral-400">Opinia z Google • 2 lata temu</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKCJA: FAQ (Płynny accordion) -->
+        <section class="py-24 sm:py-36 border-t border-neutral-200/80 bg-white/70 backdrop-blur-sm">
+            <div class="max-w-[1000px] mx-auto px-4 sm:px-8">
+                <div class="text-center mb-16 reveal-on-scroll">
+                    <span class="text-[#c5a059] font-mono text-sm sm:text-base uppercase tracking-widest font-bold block mb-3">// Najczęstsze Pytania</span>
+                    <h2 class="font-serif-title text-4xl sm:text-5xl text-neutral-900 font-black mb-4">FAQ – Wszystko Co Warto Wiedzieć</h2>
+                </div>
+
+                <div class="space-y-6">
+                    <details class="luxury-card rounded-3xl group p-6 sm:p-9 cursor-pointer bg-white reveal-on-scroll reveal-delay-1" open>
+                        <summary class="flex justify-between items-center font-serif-title text-lg sm:text-2xl text-neutral-900 font-bold select-none">
+                            <span>Jak przygotować się do sesji tatuażu lub piercingu?</span>
+                            <i class="fa-solid fa-chevron-down text-[#c5a059] text-base"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p class="text-base sm:text-lg text-neutral-600 mt-5 leading-relaxed font-normal">
+                                Przed sesją warto dobrze się wyspać i zjeść pożywny posiłek. Dzień wcześniej unikaj alkoholu i leków rozrzedzających krew. Zadbaj o nawilżenie skóry w miejscu planowanego tatuażu.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="luxury-card rounded-3xl group p-6 sm:p-9 cursor-pointer bg-white reveal-on-scroll reveal-delay-2">
+                        <summary class="flex justify-between items-center font-serif-title text-lg sm:text-2xl text-neutral-900 font-bold select-none">
+                            <span>W jakich godzinach studio przyjmuje klientów?</span>
+                            <i class="fa-solid fa-chevron-down text-[#c5a059] text-base"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p class="text-base sm:text-lg text-neutral-600 mt-5 leading-relaxed font-normal">
+                                Studio stacjonarne przy ul. Kaczkowskiego 7/6 w Tarnowie jest otwarte od <strong>poniedziałku do piątku w godzinach 10:00 – 17:00</strong> oraz w <strong>soboty w godzinach 10:00 – 15:00</strong>. W niedziele studio jest nieczynne, lecz formularz rezerwacji online działa 24/7!
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="luxury-card rounded-3xl group p-6 sm:p-9 cursor-pointer bg-white reveal-on-scroll reveal-delay-3">
+                        <summary class="flex justify-between items-center font-serif-title text-lg sm:text-2xl text-neutral-900 font-bold select-none">
+                            <span>Czy wykonujecie piercing z własnym kolczykiem?</span>
+                            <i class="fa-solid fa-chevron-down text-[#c5a059] text-base"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p class="text-base sm:text-lg text-neutral-600 mt-5 leading-relaxed font-normal">
+                                Ze względów bezpieczeństwa i sterylności pierwsze przekłucie wykonujemy wyłącznie z użyciem naszych certyfikowanych kolczyków z tytanu implantacyjnego (G23), które są sterylizowane w autoklawie.
+                            </p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER / STOPKA -->
+        <footer id="contact" class="bg-neutral-900 text-white border-t border-neutral-800 py-16 sm:py-24 relative z-20">
+            <div class="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+                    <div class="space-y-6 reveal-on-scroll reveal-delay-1">
+                        <div class="flex items-center gap-4">
+                            <img src="logo.png" alt="Czarna Kropla" class="w-14 h-14 object-contain bg-white rounded-2xl p-1.5">
+                            <div>
+                                <span class="font-cinzel text-xl sm:text-2xl font-black tracking-wider text-white block">CZARNA KROPLA</span>
+                                <span class="text-xs uppercase tracking-[0.22em] text-[#c5a059] font-bold block">Tattoo & Piercing • Tarnów</span>
+                            </div>
+                        </div>
+                        <p class="text-base sm:text-lg text-neutral-400 leading-relaxed font-normal">
+                            Profesjonalne studio tatuażu i piercingu w Tarnowie. Unikalne autorskie wzory, fine-line, blackwork i bezpieczne przekłucia.
+                        </p>
+                        <div class="space-y-4 text-base sm:text-lg text-neutral-300">
+                            <div class="flex items-center gap-3.5">
+                                <i class="fa-solid fa-location-dot text-[#c5a059] w-6 text-lg"></i>
+                                <span>Kaczkowskiego 7/6, 33-100 Tarnów, Poland</span>
+                            </div>
+                            <div class="flex items-center gap-3.5">
+                                <i class="fa-solid fa-phone text-[#c5a059] w-6 text-lg"></i>
+                                <a href="tel:576889793" class="hover:text-[#c5a059] font-black text-xl text-white transition">576 889 793</a>
+                            </div>
+                            <div class="flex items-center gap-3.5">
+                                <i class="fa-solid fa-envelope text-[#c5a059] w-6 text-lg"></i>
+                                <a href="mailto:czarnakropla.tattooshop@gmail.com" class="hover:text-[#c5a059] transition">czarnakropla.tattooshop@gmail.com</a>
+                            </div>
+                            <div class="flex items-center gap-3.5">
+                                <i class="fa-brands fa-instagram text-[#c5a059] w-6 text-lg"></i>
+                                <a href="https://www.instagram.com/czarnakropla.tattoo/" target="_blank" class="hover:text-[#c5a059] underline font-bold transition">@czarnakropla.tattoo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 reveal-on-scroll reveal-delay-2">
+                        <h3 class="font-serif-title text-lg sm:text-xl text-white font-bold uppercase tracking-wider">Godziny Pracy Studia</h3>
+                        <div class="space-y-4 text-base sm:text-lg text-neutral-300">
+                            <div class="flex justify-between border-b border-neutral-800 pb-3">
+                                <span>Poniedziałek – Piątek:</span>
+                                <span class="font-bold text-white">10:00 – 17:00</span>
+                            </div>
+                            <div class="flex justify-between border-b border-neutral-800 pb-3">
+                                <span>Sobota:</span>
+                                <span class="font-bold text-[#c5a059]">10:00 – 15:00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Niedziela:</span>
+                                <span class="font-bold text-rose-500">ZAMKNIĘTE</span>
+                            </div>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-neutral-800/80 border border-neutral-700 text-sm sm:text-base text-neutral-300">
+                            <i class="fa-solid fa-circle-info text-[#c5a059] mr-2"></i> Rezerwacje przez formularz online działają całą dobę.
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 reveal-on-scroll reveal-delay-3">
+                        <h3 class="font-serif-title text-lg sm:text-xl text-white font-bold uppercase tracking-wider">Chcesz Taką Stronę Dla Studia?</h3>
+                        <p class="text-base sm:text-lg text-neutral-400 leading-relaxed font-normal">
+                            To dedykowana wersja pokazowa przygotowana specjalnie dla Czarna Kropla Tattoo. Jeśli chcesz wdrożyć ten projekt i zyskać automatyczne rezerwacje – odezwij się do nas!
+                        </p>
+                        <button type="button" onclick="openContactOwnerModal()" class="w-full bg-[#c5a059] hover:bg-[#b38e44] text-neutral-900 font-black py-4 sm:py-5 rounded-2xl text-center text-sm sm:text-base uppercase tracking-widest transition shadow-lg cursor-pointer flex items-center justify-center gap-2.5">
+                            <i class="fa-solid fa-envelope"></i> <span>Skontaktuj Się w Sprawie Strony</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="border-t border-neutral-800 mt-16 pt-8 flex flex-col sm:flex-row justify-between items-center text-sm sm:text-base text-neutral-400 gap-4">
+                    <p>© 2026 Czarna Kropla Tattoo & Piercing Tarnów. Wszelkie prawa zastrzeżone.</p>
+                    <div class="flex items-center gap-8">
+                        <a href="javascript:void(0)" onclick="openPrivacyModal()" class="hover:text-white transition">Polityka Prywatności</a>
+                        <a href="#admin" onclick="navigateToAdmin()" class="hover:text-[#c5a059] font-mono transition flex items-center gap-2 font-bold cursor-pointer">
+                            <i class="fa-solid fa-lock text-sm"></i> Panel Studia
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- PANEL ADMINA / ZARZĄDZANIE REZERWACJAMI -->
+    <div id="admin-view-container" class="relative z-10 pt-8 pb-20 max-w-[1400px] w-full mx-auto px-4 sm:px-8 hidden flex-grow">
+        <!-- Logowanie Admina -->
+        <div id="admin-login-box" class="max-w-md mx-auto luxury-card p-8 sm:p-12 rounded-3xl border border-neutral-200 shadow-2xl my-8 bg-white">
+            <div class="text-center mb-8">
+                <i class="fa-solid fa-user-shield text-5xl text-[#c5a059] mb-3"></i>
+                <h2 class="font-serif-title text-3xl text-neutral-900 font-bold">Panel Studia</h2>
+                <p class="text-sm sm:text-base text-neutral-500 mt-1">Zarządzanie terminami Czarna Kropla Tattoo</p>
+            </div>
+            <form id="admin-login-form" class="space-y-5">
+                <div>
+                    <label class="block text-xs uppercase font-bold text-neutral-700 mb-2">Login Demo</label>
+                    <input type="email" id="admin-email" value="admin@czarnakropla.pl" required class="w-full px-5 py-3.5 rounded-xl bg-neutral-50 border border-neutral-200 text-neutral-900 text-base outline-none focus:border-[#c5a059]">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-neutral-700 mb-2">Hasło Demo</label>
+                    <input type="password" id="admin-password" value="admin123" required class="w-full px-5 py-3.5 rounded-xl bg-neutral-50 border border-neutral-200 text-neutral-900 text-base outline-none focus:border-[#c5a059]">
+                </div>
+                <p id="admin-login-error" class="text-xs sm:text-sm text-rose-600 font-medium hidden text-center"></p>
+                <button type="submit" class="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-bold py-4 rounded-xl text-sm uppercase tracking-widest transition shadow-md">
+                    Zaloguj do Panelu
+                </button>
+            </form>
+        </div>
+
+        <!-- Dashboard po zalogowaniu -->
+        <div id="admin-dashboard-content" class="hidden space-y-10 my-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 luxury-card p-6 sm:p-8 rounded-3xl border border-neutral-200 bg-white">
+                <div class="flex items-center gap-4">
+                    <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain bg-white rounded-xl border border-neutral-200 p-1">
+                    <div>
+                        <h2 class="font-serif-title text-2xl text-neutral-900 font-bold">Rezerwacje Czarna Kropla</h2>
+                        <p class="text-sm text-neutral-500">Zatwierdzaj lub usuwaj zgłoszenia wizyt</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button onclick="window.location.hash = ''" class="px-5 py-2.5 rounded-xl border border-neutral-300 text-neutral-800 hover:bg-neutral-100 text-sm font-semibold transition">
+                        ← Strona Główna
+                    </button>
+                    <button onclick="logoutAdmin()" class="px-5 py-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-100 text-sm font-bold transition">
+                        Wyloguj
+                    </button>
+                </div>
+            </div>
+
+            <!-- TABELA 1: OCZEKUJĄCE REZERWACJE -->
+            <div>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-base uppercase font-bold tracking-widest text-neutral-800 flex items-center gap-2.5">
+                        <i class="fa-solid fa-clock text-amber-500"></i> 
+                        Oczekujące Rezerwacje (<span id="admin-active-count" class="text-amber-600 font-mono font-bold">0</span>)
+                    </h3>
+                </div>
+
+                <div class="luxury-card rounded-3xl border border-neutral-200 overflow-hidden bg-white shadow-xs">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-neutral-50 text-neutral-500 font-mono text-xs uppercase tracking-wider border-b border-neutral-200">
+                                    <th class="py-4 px-5">Termin</th>
+                                    <th class="py-4 px-5">Klient</th>
+                                    <th class="py-4 px-5">Kontakt</th>
+                                    <th class="py-4 px-5">Usługa / Miejsce</th>
+                                    <th class="py-4 px-5">Status</th>
+                                    <th class="py-4 px-5 text-right">Decyzja</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-active-bookings-body" class="divide-y divide-neutral-100 text-sm sm:text-base">
+                                <tr>
+                                    <td colspan="6" class="py-8 text-center text-sm text-neutral-400">Ładowanie rezerwacji...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABELA 2: HISTORIA REZERWACJI -->
+            <div class="pt-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-base uppercase font-bold tracking-widest text-neutral-500 flex items-center gap-2.5">
+                        <i class="fa-solid fa-clock-rotate-left text-neutral-400"></i> 
+                        Historia Rezerwacji (<span id="admin-history-count" class="text-neutral-500 font-mono font-bold">0</span>)
+                    </h3>
+                </div>
+
+                <div class="luxury-card rounded-3xl border border-neutral-200 overflow-hidden bg-white shadow-xs">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-neutral-50 text-neutral-400 font-mono text-xs uppercase tracking-wider border-b border-neutral-200">
+                                    <th class="py-4 px-5">Termin</th>
+                                    <th class="py-4 px-5">Klient</th>
+                                    <th class="py-4 px-5">Kontakt</th>
+                                    <th class="py-4 px-5">Usługa</th>
+                                    <th class="py-4 px-5">Status</th>
+                                    <th class="py-4 px-5 text-right">Data Decyzji</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-history-bookings-body" class="divide-y divide-neutral-100 text-sm sm:text-base">
+                                <tr>
+                                    <td colspan="6" class="py-8 text-center text-sm text-neutral-400">Brak historii rezerwacji.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX DLA GALERII -->
+    <div id="portfolio-lightbox" class="fixed inset-0 z-50 bg-black/95 flex flex-col justify-between p-4 sm:p-8 hidden" onclick="handleLightboxBackdropClick(event)">
+        <div class="flex justify-between items-center z-10 w-full">
+            <span id="lightbox-counter" class="text-sm sm:text-base font-mono text-[#c5a059] bg-neutral-900 border border-neutral-700 px-4 py-2 rounded-full font-bold">1/4</span>
+            <button onclick="closeLightbox()" class="w-12 h-12 rounded-full bg-neutral-800 border border-neutral-700 hover:border-[#c5a059] text-neutral-300 hover:text-white flex items-center justify-center text-lg transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="relative flex-1 flex items-center justify-center my-4 select-none" id="lightbox-image-container">
+            <button onclick="prevLightboxImage(event)" class="absolute left-2 sm:left-6 z-10 w-14 h-14 rounded-full bg-black/70 border border-neutral-700 hover:border-[#c5a059] text-white flex items-center justify-center transition text-xl">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <img id="lightbox-img" src="" alt="" class="rounded-3xl border border-neutral-700 shadow-2xl max-h-[75vh] sm:max-h-[82vh] max-w-[94vw] object-contain">
+            <button onclick="nextLightboxImage(event)" class="absolute right-2 sm:right-6 z-10 w-14 h-14 rounded-full bg-black/70 border border-neutral-700 hover:border-[#c5a059] text-white flex items-center justify-center transition text-xl">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="text-center z-10">
+            <h3 id="lightbox-title" class="font-serif-title text-xl sm:text-3xl text-white font-bold"></h3>
+            <p id="lightbox-subtitle" class="text-xs sm:text-sm text-[#c5a059] tracking-widest uppercase font-semibold mt-1">CZARNA KROPLA</p>
+        </div>
+    </div>
+
+    <!-- BANER COOKIES -->
+    <div id="cookie-banner" class="fixed bottom-5 left-5 right-5 sm:left-auto sm:right-8 sm:max-w-md z-40 translate-y-full opacity-0 transition-all duration-500">
+        <div class="luxury-card p-6 rounded-3xl border border-neutral-200 shadow-2xl space-y-3 bg-white">
+            <div class="flex items-center gap-2.5 text-neutral-900 font-bold text-sm sm:text-base uppercase tracking-wider">
+                <i class="fa-solid fa-cookie-bite text-[#c5a059] text-lg"></i> Polityka Cookies
+            </div>
+            <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">Ta witryna używa plików cookies w celu prawidłowego działania modułu rezerwacji terminów.</p>
+            <div class="text-right">
+                <button onclick="acceptCookies()" class="bg-neutral-900 hover:bg-neutral-800 px-6 py-2.5 rounded-xl text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition">Rozumiem</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL POLITYKI PRYWATNOŚCI -->
+    <div id="privacy-modal" class="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0" onclick="closePrivacyModal()"></div>
+        <div class="relative z-10 bg-white border border-neutral-200 p-8 sm:p-12 rounded-3xl max-w-xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <h3 class="font-serif-title text-2xl sm:text-3xl text-neutral-900 font-bold mb-5">Polityka Prywatności</h3>
+            <div class="text-sm sm:text-base text-neutral-600 leading-relaxed space-y-4 font-normal">
+                <p><strong>1. Administrator Danych:</strong> Administratorem danych osobowych jest Czarna Kropla Tattoo & Piercing z siedzibą przy ul. Kaczkowskiego 7/6, 33-100 Tarnów.</p>
+                <p><strong>2. Cel przetwarzania:</strong> Dane podane w formularzu (imię, telefon, e-mail, preferencje) przetwarzane są wyłącznie w celu kontaktu oraz organizacji terminu sesji tatuażu lub piercingu.</p>
+                <p><strong>3. Prawa użytkownika:</strong> Każda osoba ma prawo wglądu do swoich danych, ich poprawiania lub żądania ich usunięcia.</p>
+            </div>
+            <div class="mt-8 text-right">
+                <button onclick="closePrivacyModal()" class="bg-neutral-900 text-white font-bold px-7 py-3 rounded-xl text-sm uppercase tracking-wider hover:bg-neutral-800 transition">Zamknij</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Główny skrypt aplikacji -->
+    <script src="script.js"></script>
+</body>
+</html>

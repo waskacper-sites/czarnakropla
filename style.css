@@ -1,0 +1,263 @@
+/* ==========================================================================
+   CZARNA KROPLA TATTOO & PIERCING - STYLE CSS
+   Styl: Minimalistyczny, jasny, elegancki, luksusowy (White, Deep Charcoal, Subtle Gold)
+   Tarnów, ul. Kaczkowskiego 7/6
+   ========================================================================== */
+
+:root {
+    --bg-main: #fcfcfd;
+    --bg-surface: #ffffff;
+    --bg-alt: #f8f9fa;
+    --border-color: #e4e4e7;
+    --border-subtle: #f1f1f4;
+    
+    --text-primary: #09090b;
+    --text-secondary: #52525b;
+    --text-muted: #71717a;
+    
+    --gold-primary: #c5a059;
+    --gold-light: #dfc285;
+    --gold-dark: #9e7d36;
+    --gold-glow: rgba(197, 160, 89, 0.2);
+    
+    --dark-accent: #09090b;
+    --dark-hover: #18181b;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ambient canvas z orbi w tle */
+#ambient-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.9;
+}
+
+/* Typografia tytułowa */
+.font-serif-title {
+    font-family: 'Cinzel', serif;
+    letter-spacing: -0.01em;
+}
+
+.font-cinzel {
+    font-family: 'Cinzel', serif;
+}
+
+/* Złoty gradient tekstowy */
+.gold-gradient-text {
+    background: linear-gradient(135deg, #9e7d36 0%, #c5a059 50%, #e0c58e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Przyciski i akcenty złote */
+.gold-btn {
+    background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+    color: #ffffff;
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    box-shadow: 0 4px 20px -3px rgba(197, 160, 89, 0.25);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gold-btn:hover {
+    border-color: var(--gold-primary);
+    box-shadow: 0 8px 30px -2px rgba(197, 160, 89, 0.45);
+    transform: translateY(-2px);
+}
+
+.gold-badge {
+    background: rgba(197, 160, 89, 0.08);
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    color: #8b6b28;
+}
+
+/* Karty i panele (Clean Luxury Glassmorphism) */
+.luxury-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 25px -5px rgba(0, 0, 0, 0.04);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-card:hover {
+    border-color: rgba(197, 160, 89, 0.45);
+    box-shadow: 0 16px 40px -8px rgba(197, 160, 89, 0.15);
+    transform: translateY(-3px);
+}
+
+.luxury-card-dark {
+    background: #09090b;
+    border: 1px solid #27272a;
+    color: #ffffff;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Dynamiczne odsłanianie na scroll (Scroll Reveal) */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: translateY(24px) scale(0.95);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-scale.is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* Animacje kroków rezerwacji */
+.step-slide-in {
+    animation: stepFadeSlide 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes stepFadeSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Płynne rozwijanie FAQ */
+details > div.faq-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+details[open] > div.faq-content {
+    grid-template-rows: 1fr;
+}
+
+details > div.faq-content > div {
+    overflow: hidden;
+}
+
+details summary i {
+    transition: transform 0.35s ease;
+}
+
+details[open] summary i {
+    transform: rotate(180deg);
+}
+
+/* Dni w kalendarzu - subtelne i czytelne podświetlenia */
+.calendar-day-btn {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.calendar-day-btn:not(:disabled):hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(197, 160, 89, 0.22);
+}
+
+.cal-day-free {
+    background-color: #f0fdf4 !important;
+    border-color: #bbf7d0 !important;
+    color: #166534 !important;
+    font-weight: 700;
+}
+.cal-day-free:hover {
+    background-color: #dcfce7 !important;
+    border-color: #86efac !important;
+}
+
+.cal-day-partial {
+    background-color: #fffbeb !important;
+    border-color: #fef08a !important;
+    color: #854d0e !important;
+    font-weight: 700;
+}
+.cal-day-partial:hover {
+    background-color: #fef9c3 !important;
+    border-color: #fde047 !important;
+}
+
+.cal-day-full {
+    background-color: #fef2f2 !important;
+    border-color: #fecaca !important;
+    color: #991b1b !important;
+    font-weight: 700;
+}
+.cal-day-full:hover {
+    background-color: #fee2e2 !important;
+    border-color: #fca5a5 !important;
+}
+
+.calendar-day-btn.selected-day {
+    background: #09090b !important;
+    border-color: var(--gold-primary) !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4) !important;
+    font-weight: 800;
+    ring: 2px solid var(--gold-light);
+}
+
+/* Galeria i efekty hover */
+.portfolio-card {
+    transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.14);
+}
+
+.portfolio-card img {
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-card:hover img {
+    transform: scale(1.06);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f4;
+}
+::-webkit-scrollbar-thumb {
+    background: #d4d4d8;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #a1a1aa;
+}
